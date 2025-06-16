@@ -1,3 +1,4 @@
+
 val h2_version: String by project
 val koin_version: String by project
 val kotlin_version: String by project
@@ -18,10 +19,24 @@ application {
     mainClass = "io.ktor.server.netty.EngineMain"
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+        vendor.set(JvmVendorSpec.ADOPTIUM)  // For M1/M2 compatibility
+    }
+}
+
 repositories {
     mavenCentral()
     maven { url = uri("https://jitpack.io") }
     maven { url = uri("https://packages.confluent.io/maven/") }
+    maven {
+        url = uri("https://maven.pkg.github.com/kborowy/firebase-auth-provider")
+        credentials {
+            username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_USERNAME")
+            password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 dependencies {
@@ -73,4 +88,7 @@ dependencies {
     implementation("io.ktor:ktor-server-config-yaml")
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    implementation("org.mindrot:jbcrypt:0.4")
+
+    implementation("io.ktor:ktor-server-config-yaml:2.3.12")
 }
