@@ -32,6 +32,10 @@ dependencies {
     implementation("io.ktor:ktor-server-auth-jvm:2.3.7")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:2.3.7")
 
+    // Swagger UI
+    implementation("io.ktor:ktor-server-swagger-jvm:2.3.7")
+    implementation("io.ktor:ktor-server-openapi:2.3.7")
+
     // Database
     implementation("org.postgresql:postgresql:42.7.3")
     implementation("org.jetbrains.exposed:exposed-core:0.50.1")

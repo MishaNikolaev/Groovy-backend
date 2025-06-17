@@ -28,6 +28,7 @@ fun Application.module() {
     configureSerialization()
     configureSecurity()
     configureDatabase()
+    configureSwagger()
 
     routing {
         authRoutes()
