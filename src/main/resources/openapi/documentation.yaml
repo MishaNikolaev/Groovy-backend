@@ -6,10 +6,15 @@ info:
 servers:
   - url: "http://127.0.0.1:8080/api/v1"
     description: "Бэк для музыкального сервиса"
+
 tags:
   - name: Authentication
     description: "Endpoints for auth"
     x-displayName: "Authentification"
+  - name: Tracks
+    description: "Endpoints for tracks"
+    x-displayName: "Tracks"
+
 paths:
   /auth/register:
     post:
@@ -46,21 +51,58 @@ paths:
             schema:
               $ref: "#/components/schemas/LoginRequest"
       responses:
-        200:
-          description: Успешный вход
+        "200":
+          description: "Успешный вход"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthResponse"
-        401:
-          description: Неверные учетные данные
+        "401":
+          description: "Неверные учетные данные"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /tracks:
+    get:
+      tags: [Tracks]
+      summary: "Получить все треки"
+      responses:
+        "200":
+          description: "Список треков"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Track"
+
+  /tracks/{id}:
+    get:
+      tags: [Tracks]
+      summary: "Получить трек по ID"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Трек"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Track"
+        "404":
+          description: "Не найден"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
 components:
-  x-schemas-hide: true
   schemas:
     RegisterRequest:
       type: object
@@ -116,6 +158,37 @@ components:
         username:
           type: string
           example: "music_lover"
+
+    Track:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "track_123"
+        title:
+          type: string
+          example: "My Favorite Song"
+        artist:
+          type: string
+          example: "Popular Artist"
+        duration:
+          type: integer
+          example: 180
+        albumId:
+          type: string
+          example: "album_456"
+        storagePath:
+          type: string
+          example: "tracks/album_456/track_123.mp3"
+        coverUrl:
+          type: string
+          example: "https://example.com/covers/album_456.jpg"
+        likesCount:
+          type: integer
+          example: 42
+        playsCount:
+          type: integer
+          example: 1000
 
     ErrorResponse:
       type: object

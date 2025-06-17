@@ -1,6 +1,6 @@
 package com.nmichail
 
-import com.nmichail.groovy.module
+import com.nmichail.groovy.com.nmichail.groovy.module
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.server.testing.*

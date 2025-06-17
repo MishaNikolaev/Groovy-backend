@@ -1,4 +1,4 @@
-package com.nmichail.groovy.plugins
+package com.nmichail.groovy.com.nmichail.groovy.plugins
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*

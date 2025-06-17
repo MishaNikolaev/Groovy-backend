@@ -1,9 +1,10 @@
 package com.nmichail.groovy.data.repository
 
-import com.nmichail.groovy.data.entities.User
-import com.nmichail.groovy.data.entities.Users
-import com.nmichail.groovy.domain.repository.UserRepository
+import com.nmichail.groovy.com.nmichail.groovy.data.entities.User
+import com.nmichail.groovy.com.nmichail.groovy.data.entities.Users
+import com.nmichail.groovy.com.nmichail.groovy.domain.repository.UserRepository
 import java.util.UUID
+
 
 class UserRepositoryImpl : UserRepository {
     override fun findByEmail(email: String): User? {

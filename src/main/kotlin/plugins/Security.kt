@@ -1,8 +1,8 @@
-package com.nmichail.groovy.plugins
+package com.nmichail.groovy.com.nmichail.groovy.plugins
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.nmichail.groovy.data.config.JwtConfig
+import com.nmichail.groovy.com.nmichail.groovy.data.config.JwtConfig
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*

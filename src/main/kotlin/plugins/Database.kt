@@ -1,6 +1,6 @@
-package com.nmichail.groovy.plugins
+package com.nmichail.groovy.com.nmichail.groovy.plugins
 
-import com.nmichail.groovy.data.db.migrations.createUsersTable
+import com.nmichail.groovy.com.nmichail.groovy.data.db.migrations.createUsersTable
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
 import org.slf4j.LoggerFactory

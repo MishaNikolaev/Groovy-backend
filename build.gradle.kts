@@ -56,4 +56,8 @@ dependencies {
     // Testing
     testImplementation("io.ktor:ktor-server-tests-jvm:2.3.7")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.9.22")
+
+    //Firebase
+    implementation("com.google.firebase:firebase-admin:9.2.0")
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.18.0")
 }

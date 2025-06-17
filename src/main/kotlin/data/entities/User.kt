@@ -1,4 +1,4 @@
-package com.nmichail.groovy.data.entities
+package com.nmichail.groovy.com.nmichail.groovy.data.entities
 
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass

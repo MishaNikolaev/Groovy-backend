@@ -1,4 +1,4 @@
-package com.nmichail.groovy.data.config
+package com.nmichail.groovy.com.nmichail.groovy.data.config
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm

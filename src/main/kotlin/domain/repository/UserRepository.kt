@@ -1,6 +1,6 @@
-package com.nmichail.groovy.domain.repository
+package com.nmichail.groovy.com.nmichail.groovy.domain.repository
 
-import com.nmichail.groovy.data.entities.User
+import com.nmichail.groovy.com.nmichail.groovy.data.entities.User
 import java.util.UUID
 
 interface UserRepository {

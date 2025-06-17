@@ -1,8 +1,8 @@
-package com.nmichail.groovy.routing
+package com.nmichail.groovy.com.nmichail.groovy.routing
 
-import com.nmichail.groovy.data.dtos.auth.LoginRequest
-import com.nmichail.groovy.data.dtos.auth.RegisterRequest
-import com.nmichail.groovy.services.AuthService
+import com.nmichail.groovy.com.nmichail.groovy.data.dtos.auth.LoginRequest
+import com.nmichail.groovy.com.nmichail.groovy.data.dtos.auth.RegisterRequest
+import com.nmichail.groovy.com.nmichail.groovy.services.AuthService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*

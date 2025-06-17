@@ -1,8 +1,12 @@
-package com.nmichail.groovy
+package com.nmichail.groovy.com.nmichail.groovy
 
-import com.nmichail.groovy.data.di.appModule
-import com.nmichail.groovy.plugins.*
-import com.nmichail.groovy.routing.authRoutes
+import com.nmichail.groovy.com.nmichail.groovy.plugins.configureDatabase
+import com.nmichail.groovy.com.nmichail.groovy.plugins.configureSecurity
+import com.nmichail.groovy.com.nmichail.groovy.plugins.configureSerialization
+import com.nmichail.groovy.com.nmichail.groovy.plugins.configureSwagger
+import com.nmichail.groovy.com.nmichail.groovy.routing.authRoutes
+import com.nmichail.groovy.com.nmichail.groovy.routing.trackRoutes
+import data.di.appModule
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
@@ -32,5 +36,6 @@ fun Application.module() {
 
     routing {
         authRoutes()
+        trackRoutes()
     }
 }

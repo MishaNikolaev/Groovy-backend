@@ -1,4 +1,4 @@
-package com.nmichail.groovy.data.dtos.auth
+package com.nmichail.groovy.com.nmichail.groovy.data.dtos.auth
 
 import kotlinx.serialization.Serializable
 

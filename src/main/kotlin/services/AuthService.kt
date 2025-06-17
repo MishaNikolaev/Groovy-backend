@@ -1,12 +1,12 @@
-package com.nmichail.groovy.services
+package com.nmichail.groovy.com.nmichail.groovy.services
 
-import com.nmichail.groovy.data.config.JwtConfig
-import com.nmichail.groovy.data.dtos.auth.AuthResponse
-import com.nmichail.groovy.data.dtos.auth.LoginRequest
-import com.nmichail.groovy.data.dtos.auth.RegisterRequest
-import com.nmichail.groovy.data.dtos.auth.UserDto
-import com.nmichail.groovy.data.entities.User
-import com.nmichail.groovy.domain.repository.UserRepository
+import com.nmichail.groovy.com.nmichail.groovy.data.config.JwtConfig
+import com.nmichail.groovy.com.nmichail.groovy.data.dtos.auth.AuthResponse
+import com.nmichail.groovy.com.nmichail.groovy.data.dtos.auth.LoginRequest
+import com.nmichail.groovy.com.nmichail.groovy.data.dtos.auth.RegisterRequest
+import com.nmichail.groovy.com.nmichail.groovy.data.dtos.auth.UserDto
+import com.nmichail.groovy.com.nmichail.groovy.data.entities.User
+import com.nmichail.groovy.com.nmichail.groovy.domain.repository.UserRepository
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.mindrot.jbcrypt.BCrypt
 
