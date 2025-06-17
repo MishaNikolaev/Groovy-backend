@@ -1,4 +1,4 @@
-package com.nmichail.groovy.di
+package com.nmichail.groovy.data.di
 
 import com.nmichail.groovy.data.repository.UserRepositoryImpl
 import com.nmichail.groovy.domain.repository.UserRepository

@@ -1,6 +1,6 @@
 package com.nmichail.groovy
 
-import com.nmichail.groovy.di.appModule
+import com.nmichail.groovy.data.di.appModule
 import com.nmichail.groovy.plugins.*
 import com.nmichail.groovy.routing.authRoutes
 import io.ktor.server.application.*
