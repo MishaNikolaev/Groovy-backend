@@ -19,11 +19,24 @@ class TrackService(
         return trackRepository.getTracksByAlbumId(albumId)
     }
 
-    suspend fun getTracksByArtistId(artistId: String): List<Track> {
-        return trackRepository.getTracksByArtistId(artistId)
-    }
 
     suspend fun getLikedTracks(userId: String): List<Track> {
         return trackRepository.getLikedTracks(userId)
+    }
+
+    suspend fun searchTracksByTitle(query: String): List<Track> {
+        return trackRepository.searchTracksByTitle(query)
+    }
+
+    suspend fun getTopTracks(limit: Int = 10): List<Track> {
+        return trackRepository.getTopTracks(limit)
+    }
+
+    suspend fun getRecentTracks(limit: Int = 10): List<Track> {
+        return trackRepository.getRecentTracks(limit)
+    }
+
+    suspend fun getTracksByArtist(artist: String): List<Track> {
+        return trackRepository.getTracksByArtist(artist)
     }
 } 

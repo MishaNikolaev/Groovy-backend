@@ -63,4 +63,51 @@ class TrackRepositoryImpl : TrackRepository, KoinComponent {
             getTrackById(trackId)
         }
     }
+
+    override suspend fun searchTracksByTitle(query: String): List<Track> {
+        return db.collection("tracks")
+            .get()
+            .get()
+            .documents
+            .mapNotNull { doc ->
+                doc.toObject(Track::class.java)
+            }
+            .filter { track ->
+                track.title.contains(query, ignoreCase = true)
+            }
+    }
+
+    override suspend fun getTopTracks(limit: Int): List<Track> {
+
+        return db.collection("tracks")
+            .limit(limit.toLong().toInt())
+            .get()
+            .get()
+            .documents
+            .mapNotNull { doc ->
+                doc.toObject(Track::class.java)
+            }
+    }
+
+    override suspend fun getRecentTracks(limit: Int): List<Track> {
+        return db.collection("tracks")
+            .limit(limit.toLong().toInt())
+            .get()
+            .get()
+            .documents
+            .mapNotNull { doc ->
+                doc.toObject(Track::class.java)
+            }
+    }
+
+    override suspend fun getTracksByArtist(artist: String): List<Track> {
+        return db.collection("tracks")
+            .whereEqualTo("artist", artist)
+            .get()
+            .get()
+            .documents
+            .mapNotNull { doc ->
+                doc.toObject(Track::class.java)
+            }
+    }
 } 

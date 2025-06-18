@@ -1,12 +1,7 @@
-package com.nmichail.groovy.com.nmichail.groovy
+package com.nmichail.groovy
 
-import com.nmichail.groovy.com.nmichail.groovy.plugins.configureDatabase
-import com.nmichail.groovy.com.nmichail.groovy.plugins.configureSecurity
-import com.nmichail.groovy.com.nmichail.groovy.plugins.configureSerialization
-import com.nmichail.groovy.com.nmichail.groovy.plugins.configureSwagger
-import com.nmichail.groovy.com.nmichail.groovy.routing.albumRoutes
-import com.nmichail.groovy.com.nmichail.groovy.routing.authRoutes
-import com.nmichail.groovy.com.nmichail.groovy.routing.trackRoutes
+import com.nmichail.groovy.com.nmichail.groovy.plugins.*
+import com.nmichail.groovy.com.nmichail.groovy.routing.*
 import data.di.appModule
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -39,5 +34,8 @@ fun Application.module() {
         authRoutes()
         trackRoutes()
         albumRoutes()
+        playlistRoutes()
+        likeRoutes()
+        playRoutes()
     }
 }

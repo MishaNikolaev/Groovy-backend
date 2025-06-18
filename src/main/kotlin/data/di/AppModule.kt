@@ -1,22 +1,25 @@
 package data.di
 
-import com.nmichail.groovy.domain.repository.TrackRepository
 import com.nmichail.groovy.com.nmichail.groovy.domain.repository.UserRepository
-import com.nmichail.groovy.data.repository.FirebaseUserRepositoryImpl
 import com.nmichail.groovy.data.repository.UserRepositoryImpl
-import com.nmichail.groovy.domain.repository.FirebaseUserRepository
-import com.nmichail.groovy.domain.repository.AlbumRepository
-import data.repository.AlbumRepositoryImpl
-import data.repository.TrackRepositoryImpl
+import com.nmichail.groovy.domain.repository.*
+import data.repository.*
 import org.koin.dsl.module
-import services.AlbumService
-import services.TrackService
+import services.*
+import com.nmichail.groovy.com.nmichail.groovy.services.AuthService
 
 val appModule = module {
-    single<UserRepository> { UserRepositoryImpl() }
-    single<TrackRepository> { TrackRepositoryImpl() }
     single<AlbumRepository> { AlbumRepositoryImpl() }
-    single { TrackService(get()) }
+    single<TrackRepository> { TrackRepositoryImpl() }
+    single<UserRepository> { UserRepositoryImpl() }
+    single<PlaylistRepository> { PlaylistRepositoryImpl() }
+    single<LikeRepository> { LikeRepositoryImpl() }
+    single<PlayRepository> { PlayRepositoryImpl() }
+
     single { AlbumService(get()) }
-    single<FirebaseUserRepository> { FirebaseUserRepositoryImpl() }
+    single { TrackService(get()) }
+    single { PlaylistService(get()) }
+    single { LikeService(get()) }
+    single { PlayService(get()) }
+    single { AuthService(get()) }
 } 

@@ -4,7 +4,7 @@ info:
   version: "1.0.0"
   description: "API для музыкального сервиса Groovy"
 servers:
-  - url: "http://127.0.0.1:8080/api/v1"
+  - url: "http://127.0.0.1:8080"
     description: "Бэк для музыкального сервиса"
 
 tags:
@@ -17,6 +17,9 @@ tags:
   - name: Albums
     description: "Endpoints for albums"
     x-displayName: "Albums"
+  - name: Playlists
+    description: "Endpoints for playlists"
+    x-displayName: "Playlists"
 
 paths:
   /auth/register:
@@ -100,6 +103,158 @@ paths:
                 $ref: "#/components/schemas/Track"
         "404":
           description: "Не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /tracks/album/{albumId}:
+    get:
+      tags: [Tracks]
+      summary: "Получить все треки альбома"
+      parameters:
+        - name: albumId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1"
+      responses:
+        "200":
+          description: "Список треков альбома"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Track"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /tracks/artist/{artist}:
+    get:
+      tags: [Tracks]
+      summary: "Получить все треки исполнителя"
+      parameters:
+        - name: artist
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "Queen"
+      responses:
+        "200":
+          description: "Список треков исполнителя"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Track"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /tracks/search:
+    get:
+      tags: [Tracks]
+      summary: "Поиск треков по названию"
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "Bohemian"
+          description: "Поисковый запрос"
+      responses:
+        "200":
+          description: "Список найденных треков"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Track"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /tracks/top:
+    get:
+      tags: [Tracks]
+      summary: "Получить популярные треки"
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          example: 10
+          description: "Количество треков (по умолчанию 10)"
+      responses:
+        "200":
+          description: "Список популярных треков"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Track"
+
+  /tracks/recent:
+    get:
+      tags: [Tracks]
+      summary: "Получить недавние треки"
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          example: 10
+          description: "Количество треков (по умолчанию 10)"
+      responses:
+        "200":
+          description: "Список недавних треков"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Track"
+
+  /tracks/liked/{userId}:
+    get:
+      tags: [Tracks]
+      summary: "Получить понравившиеся треки пользователя"
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Список понравившихся треков"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Track"
+        "400":
+          description: "Неверный запрос"
           content:
             application/json:
               schema:
@@ -255,6 +410,395 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
+  /tracks/{id}/like:
+    post:
+      tags: [Tracks]
+      summary: "Лайкнуть трек"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1"
+        - name: X-User-Id
+          in: header
+          required: true
+          schema:
+            type: string
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        "200":
+          description: "Трек успешно лайкнут"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "Трек не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags: [Tracks]
+      summary: "Убрать лайк с трека"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1"
+        - name: X-User-Id
+          in: header
+          required: true
+          schema:
+            type: string
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        "200":
+          description: "Лайк успешно убран"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "Трек не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /tracks/{id}/play:
+    post:
+      tags: [Tracks]
+      summary: "Записать прослушивание трека"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1"
+        - name: X-User-Id
+          in: header
+          required: true
+          schema:
+            type: string
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        "200":
+          description: "Прослушивание записано"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "Трек не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    get:
+      tags: [Tracks]
+      summary: "Получить количество прослушиваний трека"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1"
+      responses:
+        "200":
+          description: "Количество прослушиваний"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    format: int64
+                    example: 1500
+        "404":
+          description: "Трек не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /albums/{id}/like:
+    post:
+      tags: [Albums]
+      summary: "Лайкнуть альбом"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1"
+        - name: X-User-Id
+          in: header
+          required: true
+          schema:
+            type: string
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        "200":
+          description: "Альбом успешно лайкнут"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "Альбом не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags: [Albums]
+      summary: "Убрать лайк с альбома"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1"
+        - name: X-User-Id
+          in: header
+          required: true
+          schema:
+            type: string
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        "200":
+          description: "Лайк успешно убран"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "Альбом не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /playlists:
+    post:
+      tags: [Playlists]
+      summary: "Создать новый плейлист"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Playlist"
+      responses:
+        "201":
+          description: "Плейлист успешно создан"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Playlist"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /playlists/{id}:
+    get:
+      tags: [Playlists]
+      summary: "Получить плейлист по ID"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1"
+      responses:
+        "200":
+          description: "Плейлист"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Playlist"
+        "404":
+          description: "Плейлист не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      tags: [Playlists]
+      summary: "Обновить плейлист"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Playlist"
+      responses:
+        "200":
+          description: "Плейлист успешно обновлен"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Playlist"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "Плейлист не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags: [Playlists]
+      summary: "Удалить плейлист"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1"
+      responses:
+        "204":
+          description: "Плейлист успешно удален"
+        "404":
+          description: "Плейлист не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /playlists/{id}/tracks:
+    post:
+      tags: [Playlists]
+      summary: "Добавить треки в плейлист"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+              example: ["1", "2", "3"]
+      responses:
+        "200":
+          description: "Треки успешно добавлены"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "Плейлист не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags: [Playlists]
+      summary: "Удалить треки из плейлиста"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+              example: ["1", "2", "3"]
+      responses:
+        "200":
+          description: "Треки успешно удалены"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "Плейлист не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /playlists/user/{userId}:
+    get:
+      tags: [Playlists]
+      summary: "Получить плейлисты пользователя"
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        "200":
+          description: "Список плейлистов пользователя"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Playlist"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   schemas:
     RegisterRequest:
@@ -317,31 +861,28 @@ components:
       properties:
         id:
           type: string
-          example: "track_123"
+          example: "1"
         title:
           type: string
-          example: "My Favorite Song"
+          example: "Bohemian Rhapsody"
         artist:
           type: string
-          example: "Popular Artist"
+          example: "Queen"
+        artistId:
+          type: string
+          example: "1"
         duration:
           type: integer
-          example: 180
+          example: 600
         albumId:
           type: string
-          example: "album_456"
+          example: "1"
         storagePath:
           type: string
-          example: "tracks/album_456/track_123.mp3"
+          example: "https://firebasestorage.googleapis.com/v0/b/groovy-5c16f.appspot.com/o/Queen_-_Bohemian_Rhapsody_47828495.mp3?alt=media&token=9ecfe45a-3a50-4d9f-9642-ded4167ce173"
         coverUrl:
           type: string
-          example: "https://example.com/covers/album_456.jpg"
-        likesCount:
-          type: integer
-          example: 42
-        playsCount:
-          type: integer
-          example: 1000
+          example: "https://cdn-images.dzcdn.net/images/cover/201607ab9cd92a1f977659c7c524cadf/0x1900-000000-80-0-0.jpg"
 
     Album:
       type: object
@@ -374,3 +915,38 @@ components:
         message:
           type: string
           example: "Password must be at least 8 characters long"
+
+    Playlist:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+        name:
+          type: string
+          example: "Мой плейлист"
+        description:
+          type: string
+          example: "Мои любимые треки"
+        userId:
+          type: string
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        coverUrl:
+          type: string
+          example: "https://example.com/cover.jpg"
+        tracks:
+          type: array
+          items:
+            type: string
+          example: ["1", "2", "3"]
+        createdAt:
+          type: integer
+          format: int64
+          example: 1648771200000
+        updatedAt:
+          type: integer
+          format: int64
+          example: 1648771200000
+      required:
+        - name
+        - userId
