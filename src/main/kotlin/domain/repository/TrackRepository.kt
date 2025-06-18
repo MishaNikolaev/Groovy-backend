@@ -12,4 +12,6 @@ interface TrackRepository {
     suspend fun getTopTracks(limit: Int = 10): List<Track>
     suspend fun getRecentTracks(limit: Int = 10): List<Track>
     suspend fun getTracksByArtist(artist: String): List<Track>
+    suspend fun createTrack(track: Track): Track
+    suspend fun deleteTrack(id: String)
 }

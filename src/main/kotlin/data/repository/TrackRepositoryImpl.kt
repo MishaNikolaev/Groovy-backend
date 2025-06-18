@@ -110,4 +110,19 @@ class TrackRepositoryImpl : TrackRepository, KoinComponent {
                 doc.toObject(Track::class.java)
             }
     }
+
+    override suspend fun createTrack(track: Track): Track {
+        db.collection("tracks")
+            .document(track.id)
+            .set(track)
+            .get()
+        return track
+    }
+
+    override suspend fun deleteTrack(id: String) {
+        db.collection("tracks")
+            .document(id)
+            .delete()
+            .get()
+    }
 } 

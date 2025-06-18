@@ -5,19 +5,25 @@ import models.Track
 
 class TrackService(
     private val trackRepository: TrackRepository,
+    private val cacheService: CacheService
 ) {
     suspend fun getAllTracks(): List<Track> {
         return trackRepository.getAllTracks()
     }
 
     suspend fun getTrackById(id: String): Track? {
-        return trackRepository.getTrackById(id)
+        return cacheService.getTrack(id) {
+            trackRepository.getTrackById(id)
+        }
     }
 
     suspend fun getTracksByAlbumId(albumId: String): List<Track> {
         return trackRepository.getTracksByAlbumId(albumId)
     }
 
+    suspend fun getTracksByArtistId(artistId: String): List<Track> {
+        return trackRepository.getTracksByArtistId(artistId)
+    }
 
     suspend fun getLikedTracks(userId: String): List<Track> {
         return trackRepository.getLikedTracks(userId)
@@ -28,7 +34,9 @@ class TrackService(
     }
 
     suspend fun getTopTracks(limit: Int = 10): List<Track> {
-        return trackRepository.getTopTracks(limit)
+        return cacheService.getPopularTracks(limit) {
+            trackRepository.getTopTracks(limit)
+        }
     }
 
     suspend fun getRecentTracks(limit: Int = 10): List<Track> {

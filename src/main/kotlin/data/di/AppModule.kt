@@ -6,6 +6,7 @@ import com.nmichail.groovy.domain.repository.*
 import data.repository.*
 import org.koin.dsl.module
 import services.*
+import security.AccessControl
 import com.nmichail.groovy.com.nmichail.groovy.services.AuthService
 
 val appModule = module {
@@ -16,8 +17,10 @@ val appModule = module {
     single<LikeRepository> { LikeRepositoryImpl() }
     single<PlayRepository> { PlayRepositoryImpl() }
 
+    single { CacheService() }
+    single { AccessControl() }
     single { AlbumService(get()) }
-    single { TrackService(get()) }
+    single { TrackService(get(), get()) }
     single { PlaylistService(get()) }
     single { LikeService(get()) }
     single { PlayService(get()) }

@@ -1,3 +1,8 @@
+val ktor_version: String by project
+val kotlin_version: String by project
+val logback_version: String by project
+val firebase_admin_version: String by project
+
 plugins {
     kotlin("jvm") version "1.9.22"
     id("io.ktor.plugin") version "2.3.7"
@@ -8,7 +13,10 @@ group = "com.nmichail"
 version = "0.0.1"
 
 application {
-    mainClass.set("io.ktor.server.netty.EngineMain")
+    mainClass.set("com.nmichail.groovy.ApplicationKt")
+
+    val isDevelopment: Boolean = project.ext.has("development")
+    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
 java {
@@ -21,6 +29,7 @@ java {
 repositories {
     mavenCentral()
     maven { url = uri("https://jitpack.io") }
+    maven { url = uri("https://maven.google.com") }
 }
 
 dependencies {
@@ -56,8 +65,37 @@ dependencies {
     // Testing
     testImplementation("io.ktor:ktor-server-tests-jvm:2.3.7")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.9.22")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
     //Firebase
     implementation("com.google.firebase:firebase-admin:9.2.0")
     implementation("com.google.auth:google-auth-library-oauth2-http:1.18.0")
+
+    // Rate limiting
+    implementation("io.ktor:ktor-server-rate-limit:2.3.7")
+    
+    // Validation
+    implementation("io.ktor:ktor-server-request-validation-jvm:2.3.7")
+    implementation("org.valiktor:valiktor-core:0.12.0")
+    
+    // Caching
+    implementation("io.github.reactivecircus.cache4k:cache4k:0.12.0")
+    
+    // CORS
+    implementation("io.ktor:ktor-server-cors-jvm:2.3.7")
+
+    // Testing dependencies
+    testImplementation("io.ktor:ktor-server-tests-jvm")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.9.22")
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
+    testImplementation("io.kotest:kotest-runner-junit5:5.8.0")
+    testImplementation("io.kotest:kotest-assertions-core:5.8.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
