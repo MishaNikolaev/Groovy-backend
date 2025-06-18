@@ -14,6 +14,9 @@ tags:
   - name: Tracks
     description: "Endpoints for tracks"
     x-displayName: "Tracks"
+  - name: Albums
+    description: "Endpoints for albums"
+    x-displayName: "Albums"
 
 paths:
   /auth/register:
@@ -97,6 +100,156 @@ paths:
                 $ref: "#/components/schemas/Track"
         "404":
           description: "Не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /albums:
+    get:
+      tags: [Albums]
+      summary: "Получить все альбомы"
+      responses:
+        "200":
+          description: "Список альбомов"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Album"
+        "500":
+          description: "Внутренняя ошибка сервера"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /albums/{id}:
+    get:
+      tags: [Albums]
+      summary: "Получить альбом по ID"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Альбом"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Album"
+        "404":
+          description: "Не найден"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "Внутренняя ошибка сервера"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /albums/artist/{artist}:
+    get:
+      tags: [Albums]
+      summary: "Получить альбомы по имени исполнителя"
+      parameters:
+        - name: artist
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "Queen"
+      responses:
+        "200":
+          description: "Список альбомов исполнителя"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Album"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "Внутренняя ошибка сервера"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /albums/search:
+    get:
+      tags: [Albums]
+      summary: "Поиск альбомов по названию"
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "Night"
+          description: "Поисковый запрос"
+      responses:
+        "200":
+          description: "Список найденных альбомов"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Album"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "Внутренняя ошибка сервера"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /albums/genre/{genre}:
+    get:
+      tags: [Albums]
+      summary: "Получить альбомы по жанру"
+      parameters:
+        - name: genre
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "Rock"
+      responses:
+        "200":
+          description: "Список альбомов выбранного жанра"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Album"
+        "400":
+          description: "Неверный запрос"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "Внутренняя ошибка сервера"
           content:
             application/json:
               schema:
@@ -189,6 +342,28 @@ components:
         playsCount:
           type: integer
           example: 1000
+
+    Album:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+        title:
+          type: string
+          example: "A Night At Opera"
+        artist:
+          type: string
+          example: "Queen"
+        coverUrl:
+          type: string
+          example: "https://cdn-images.dzcdn.net/images/cover/201607ab9cd92a1f977659c7c524cadf/0x1900-000000-80-0-0.jpg"
+        createdAt:
+          type: string
+          example: "1975"
+        genre:
+          type: string
+          example: "Rock"
 
     ErrorResponse:
       type: object

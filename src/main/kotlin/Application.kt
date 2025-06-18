@@ -4,6 +4,7 @@ import com.nmichail.groovy.com.nmichail.groovy.plugins.configureDatabase
 import com.nmichail.groovy.com.nmichail.groovy.plugins.configureSecurity
 import com.nmichail.groovy.com.nmichail.groovy.plugins.configureSerialization
 import com.nmichail.groovy.com.nmichail.groovy.plugins.configureSwagger
+import com.nmichail.groovy.com.nmichail.groovy.routing.albumRoutes
 import com.nmichail.groovy.com.nmichail.groovy.routing.authRoutes
 import com.nmichail.groovy.com.nmichail.groovy.routing.trackRoutes
 import data.di.appModule
@@ -37,5 +38,6 @@ fun Application.module() {
     routing {
         authRoutes()
         trackRoutes()
+        albumRoutes()
     }
 }
