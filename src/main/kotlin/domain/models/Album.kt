@@ -10,5 +10,6 @@ data class Album(
     val coverUrl: String = "",
     val createdAt: String = "",
     val genre: String = "",
-    val artistPhotoUrl: String = ""
-    )
+    val artistPhotoUrl: String = "",
+    val coverColor: String = "",
+)
