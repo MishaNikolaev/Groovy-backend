@@ -53,7 +53,8 @@ fun Route.trackRoutes() {
             try {
                 val albumId = call.parameters["albumId"] ?: throw IllegalArgumentException("Album ID is required")
                 val tracks = trackService.getTracksByAlbumId(albumId)
-                call.respond(HttpStatusCode.OK, tracks)
+                println("[TrackRoutes] albumId=$albumId, tracks.size=${tracks.size}, tracks=$tracks")
+                call.respond(HttpStatusCode.OK, tracks) 
             } catch (e: IllegalArgumentException) {
                 call.respond(
                     HttpStatusCode.BadRequest,

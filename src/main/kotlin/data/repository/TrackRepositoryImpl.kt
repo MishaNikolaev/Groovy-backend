@@ -4,10 +4,13 @@ import com.google.cloud.firestore.Firestore
 import com.nmichail.groovy.domain.repository.TrackRepository
 import data.firebase.FirebaseAdmin
 import models.Track
+import org.apache.commons.logging.Log
 import org.koin.core.component.KoinComponent
+import org.slf4j.LoggerFactory
 
 class TrackRepositoryImpl : TrackRepository, KoinComponent {
     private val db: Firestore = FirebaseAdmin.getDb()
+    private val logger = LoggerFactory.getLogger(TrackRepositoryImpl::class.java)
 
     override suspend fun getAllTracks(): List<Track> {
         return db.collection("tracks")
@@ -15,16 +18,33 @@ class TrackRepositoryImpl : TrackRepository, KoinComponent {
             .get()
             .documents
             .mapNotNull { doc ->
-                doc.toObject(Track::class.java)
+                try {
+                    logger.info("[TrackRepo] Trying to deserialize track: id=${doc.id}, data=${doc.data}")
+                    val track = doc.toObject(Track::class.java)
+                    if (track == null) {
+                        logger.warn("[TrackRepo][WARN] Deserialized track is null! id=${doc.id}, data=${doc.data}")
+                    } else {
+                        logger.info("[TrackRepo][OK] Successfully deserialized track: id=${doc.id}, track=$track")
+                    }
+                    track
+                } catch (e: Exception) {
+                    logger.error("[TrackRepo][ERROR] Failed to deserialize track with id=${doc.id}, data=${doc.data}, error=${e.message}")
+                    null
+                }
             }
     }
 
     override suspend fun getTrackById(id: String): Track? {
-        return db.collection("tracks")
-            .document(id)
-            .get()
-            .get()
-            .toObject(Track::class.java)
+        return try {
+            db.collection("tracks")
+                .document(id)
+                .get()
+                .get()
+                .toObject(Track::class.java)
+        } catch (e: Exception) {
+            logger.error("[TrackRepo][ERROR] Failed to deserialize track with id=$id: ${e.message}")
+            null
+        }
     }
 
     override suspend fun getTracksByAlbumId(albumId: String): List<Track> {
@@ -34,7 +54,19 @@ class TrackRepositoryImpl : TrackRepository, KoinComponent {
             .get()
             .documents
             .mapNotNull { doc ->
-                doc.toObject(Track::class.java)
+                try {
+                    logger.info("[TrackRepo] Trying to deserialize track: id=${doc.id}, data=${doc.data}")
+                    val track = doc.toObject(Track::class.java)
+                    if (track == null) {
+                        logger.warn("[TrackRepo][WARN] Deserialized track is null! id=${doc.id}, data=${doc.data}")
+                    } else {
+                        logger.info("[TrackRepo][OK] Successfully deserialized track: id=${doc.id}, track=$track")
+                    }
+                    track
+                } catch (e: Exception) {
+                    logger.error("[TrackRepo][ERROR] Failed to deserialize track with id=${doc.id}, data=${doc.data}, error=${e.message}")
+                    null
+                }
             }
     }
 
@@ -45,7 +77,19 @@ class TrackRepositoryImpl : TrackRepository, KoinComponent {
             .get()
             .documents
             .mapNotNull { doc ->
-                doc.toObject(Track::class.java)
+                try {
+                    logger.info("[TrackRepo] Trying to deserialize track: id=${doc.id}, data=${doc.data}")
+                    val track = doc.toObject(Track::class.java)
+                    if (track == null) {
+                        logger.warn("[TrackRepo][WARN] Deserialized track is null! id=${doc.id}, data=${doc.data}")
+                    } else {
+                        logger.info("[TrackRepo][OK] Successfully deserialized track: id=${doc.id}, track=$track")
+                    }
+                    track
+                } catch (e: Exception) {
+                    logger.error("[TrackRepo][ERROR] Failed to deserialize track with id=${doc.id}, data=${doc.data}, error=${e.message}")
+                    null
+                }
             }
     }
 
@@ -70,10 +114,15 @@ class TrackRepositoryImpl : TrackRepository, KoinComponent {
             .get()
             .documents
             .mapNotNull { doc ->
-                doc.toObject(Track::class.java)
+                try {
+                    doc.toObject(Track::class.java)
+                } catch (e: Exception) {
+                    logger.error("[TrackRepo][ERROR] Failed to deserialize track with id=${doc.id}: ${e.message}")
+                    null
+                }
             }
             .filter { track ->
-                track.title.contains(query, ignoreCase = true)
+                track.title?.contains(query, ignoreCase = true) == true
             }
     }
 
@@ -85,7 +134,12 @@ class TrackRepositoryImpl : TrackRepository, KoinComponent {
             .get()
             .documents
             .mapNotNull { doc ->
-                doc.toObject(Track::class.java)
+                try {
+                    doc.toObject(Track::class.java)
+                } catch (e: Exception) {
+                    logger.error("[TrackRepo][ERROR] Failed to deserialize track with id=${doc.id}: ${e.message}")
+                    null
+                }
             }
     }
 
@@ -96,7 +150,12 @@ class TrackRepositoryImpl : TrackRepository, KoinComponent {
             .get()
             .documents
             .mapNotNull { doc ->
-                doc.toObject(Track::class.java)
+                try {
+                    doc.toObject(Track::class.java)
+                } catch (e: Exception) {
+                    logger.error("[TrackRepo][ERROR] Failed to deserialize track with id=${doc.id}: ${e.message}")
+                    null
+                }
             }
     }
 
@@ -107,13 +166,18 @@ class TrackRepositoryImpl : TrackRepository, KoinComponent {
             .get()
             .documents
             .mapNotNull { doc ->
-                doc.toObject(Track::class.java)
+                try {
+                    doc.toObject(Track::class.java)
+                } catch (e: Exception) {
+                    logger.error("[TrackRepo][ERROR] Failed to deserialize track with id=${doc.id}: ${e.message}")
+                    null
+                }
             }
     }
 
     override suspend fun createTrack(track: Track): Track {
         db.collection("tracks")
-            .document(track.id)
+            .document(track.id ?: "")
             .set(track)
             .get()
         return track

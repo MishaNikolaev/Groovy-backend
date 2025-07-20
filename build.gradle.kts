@@ -84,6 +84,12 @@ dependencies {
     // CORS
     implementation("io.ktor:ktor-server-cors-jvm:2.3.7")
 
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+
+    //Logger
+    implementation("org.slf4j:slf4j-api:2.0.7")
+    implementation("ch.qos.logback:logback-classic:1.4.11")
+
     // Testing dependencies
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.9.22")
