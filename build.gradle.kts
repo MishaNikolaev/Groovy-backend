@@ -44,6 +44,7 @@ dependencies {
     // Swagger UI
     implementation("io.ktor:ktor-server-swagger-jvm:2.3.7")
     implementation("io.ktor:ktor-server-openapi:2.3.7")
+    implementation("io.ktor:ktor-server-html-builder-jvm:2.3.7")
 
     // Database
     implementation("org.postgresql:postgresql:42.7.3")
@@ -104,4 +105,11 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+configurations.all {
+    resolutionStrategy {
+        force("com.google.guava:guava:32.1.1-jre")
+        exclude(group = "com.google.guava", module = "listenablefuture")
+    }
 }
