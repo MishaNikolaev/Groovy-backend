@@ -26,6 +26,7 @@ class ApplicationTest {
 
 }
 
+
 fun Application.configureSwagger() {
     routing {
         swaggerUI(path = "/", swaggerFile = "openapi/documentation.yaml")
