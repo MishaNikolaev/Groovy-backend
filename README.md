@@ -1,4 +1,3 @@
-
 ![Groovy Backend API](src/main/resources/assets/groovy_photo1.png)
 
 # Groovy-backend
